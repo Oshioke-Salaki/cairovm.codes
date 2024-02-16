@@ -199,7 +199,7 @@ const Editor = ({ readOnly = false }: Props) => {
     <>
       <div className="bg-gray-100 dark:bg-black-700 rounded-lg">
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 flex flex-col">
             <div className="border-b border-gray-200 dark:border-black-500 flex items-center pl-6 pr-2 h-14 md:border-r">
               <Header
                 codeType={codeType}
@@ -207,51 +207,48 @@ const Editor = ({ readOnly = false }: Props) => {
               />
             </div>
 
-            <div>
-              <div
-                className="relative pane pane-light overflow-auto md:border-r bg-gray-50 dark:bg-black-600 border-gray-200 dark:border-black-500"
-                style={{ height: cairoEditorHeight }}
-              >
-                {codeType === CodeType.CASM ? (
-                  <InstructionsTable
-                    instructions={casmInstructions}
-                    activeIndex={activeCasmInstructionIndex}
-                    height={cairoEditorHeight}
-                  />
-                ) : (
-                  <SCEditor
-                    // @ts-ignore: SCEditor is not TS-friendly
-                    ref={editorRef}
-                    value={
-                      codeType === CodeType.Cairo
-                        ? cairoCode
-                        : codeType === CodeType.Sierra
-                        ? sierraCode
-                        : codeType === CodeType.CASM
-                        ? casmCode
-                        : ''
-                    }
-                    readOnly={readOnly}
-                    onValueChange={handleCairoCodeChange}
-                    highlight={highlightCode}
-                    tabSize={4}
-                    className={cn('code-editor', {
-                      'with-numbers': !isBytecode,
-                    })}
-                  />
-                )}
-              </div>
-
-              <EditorControls
-                isCompileDisabled={isCompileDisabled}
-                programArguments={programArguments}
-                areProgramArgumentsValid={areProgramArgumentsValid}
-                onCopyPermalink={handleCopyPermalink}
-                onProgramArgumentsUpdate={handleProgramArgumentsUpdate}
-                onCompileRun={handleCompileRun}
-                onShowArgumentsHelper={() => setShowArgumentsHelper(true)}
-              />
+            <div
+              className="relative pane pane-light flex-grow overflow-auto md:border-r bg-gray-50 dark:bg-black-600 border-gray-200 dark:border-black-500"
+              style={{ height: cairoEditorHeight }}
+            >
+              {codeType === CodeType.CASM ? (
+                <InstructionsTable
+                  instructions={casmInstructions}
+                  activeIndex={activeCasmInstructionIndex}
+                  height={cairoEditorHeight}
+                />
+              ) : (
+                <SCEditor
+                  // @ts-ignore: SCEditor is not TS-friendly
+                  ref={editorRef}
+                  value={
+                    codeType === CodeType.Cairo
+                      ? cairoCode
+                      : codeType === CodeType.Sierra
+                      ? sierraCode
+                      : codeType === CodeType.CASM
+                      ? casmCode
+                      : ''
+                  }
+                  readOnly={readOnly}
+                  onValueChange={handleCairoCodeChange}
+                  highlight={highlightCode}
+                  tabSize={4}
+                  className={cn('code-editor', {
+                    'with-numbers': !isBytecode,
+                  })}
+                />
+              )}
             </div>
+            <EditorControls
+              isCompileDisabled={isCompileDisabled}
+              programArguments={programArguments}
+              areProgramArgumentsValid={areProgramArgumentsValid}
+              onCopyPermalink={handleCopyPermalink}
+              onProgramArgumentsUpdate={handleProgramArgumentsUpdate}
+              onCompileRun={handleCompileRun}
+              onShowArgumentsHelper={() => setShowArgumentsHelper(true)}
+            />
           </div>
 
           <div className="w-full md:w-1/2">
@@ -260,18 +257,38 @@ const Editor = ({ readOnly = false }: Props) => {
               mainHeight={cairoEditorHeight}
               barHeight={runBarHeight}
             />
+            <div className="bg-gray-800 dark:bg-black-700 text-white">
+              <div className="px-4">
+                <nav
+                  className="-mb-px uppercase flex space-x-8"
+                  aria-label="Tabs"
+                >
+                  <a
+                    href="#"
+                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-3 text-xs font-thin"
+                  >
+                    Debug Console
+                  </a>
+                  <a
+                    href="#"
+                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-3 text-xs font-thin"
+                  >
+                    Output
+                  </a>
+                </nav>
+              </div>
+              <div
+                className="pane pane-dark overflow-auto border-t border-black-900/25 md:border-r"
+                style={{ height: consoleHeight }}
+              >
+                <Console output={output} />
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row-reverse">
-          <div className="w-full">
-            <div
-              className="pane pane-dark overflow-auto bg-gray-800 dark:bg-black-700 text-white border-t border-black-900/25 md:border-r"
-              style={{ height: consoleHeight }}
-            >
-              <Console output={output} />
-            </div>
-          </div>
+          <div className="w-full"></div>
         </div>
 
         <div className="rounded-b-lg py-2 px-4 border-t bg-gray-800 dark:bg-black-700 border-black-900/25 text-gray-400 dark:text-gray-600 text-xs">

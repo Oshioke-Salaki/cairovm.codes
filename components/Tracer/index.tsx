@@ -35,11 +35,10 @@ export interface TracerData {
 
 interface TracerProps {
   mainHeight: number
-  barHeight: number
   tracerData?: TracerData
 }
 
-export const Tracer = ({ tracerData, mainHeight, barHeight }: TracerProps) => {
+export const Tracer = ({ tracerData, mainHeight }: TracerProps) => {
   const { onExecutionStepChange, executionTraceStepNumber } =
     useContext(CairoVMApiContext)
 
@@ -77,7 +76,7 @@ export const Tracer = ({ tracerData, mainHeight, barHeight }: TracerProps) => {
 
   return (
     <>
-      <div className="border-t md:border-t-0 border-b border-gray-200 dark:border-black-500 flex items-center pl-4 pr-6 h-14">
+      <div className="bg-gray-100 border-t md:border-t-0 border-b border-gray-200 dark:border-black-500 flex items-center pl-4 pr-6 h-14">
         <ExecutionStatus onStepIn={stepIn} onStepOut={stepOut} />
       </div>
       {tracerData && currentTraceEntry && trace && (
@@ -93,13 +92,13 @@ export const Tracer = ({ tracerData, mainHeight, barHeight }: TracerProps) => {
               currentTraceEntry={currentTraceEntry}
             />
           </div>
-          <div style={{ height: barHeight }}>
+          {/* <div style={{ height: barHeight }}>
             <InfoBar
               trace={trace}
               currentStep={executionTraceStepNumber}
               currentTraceEntry={currentTraceEntry}
             />
-          </div>
+          </div> */}
         </>
       )}
     </>

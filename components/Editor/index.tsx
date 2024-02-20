@@ -261,11 +261,7 @@ const Editor = ({ readOnly = false }: Props) => {
 
           <div className="flex flex-col w-full md:w-1/2">
             <div className="flex-grow bg-gray-50">
-              <Tracer
-                tracerData={tracerData}
-                mainHeight={cairoEditorHeight}
-                barHeight={runBarHeight}
-              />
+              <Tracer tracerData={tracerData} mainHeight={cairoEditorHeight} />
             </div>
             <div className="border-gray-200 border-t">
               <div className="px-4">
@@ -343,6 +339,20 @@ const Editor = ({ readOnly = false }: Props) => {
                           </dd>
                         </div>
                       </div>
+                      <dt className="mb-1 text-gray-500 dark:text-gray-400 font-medium uppercase">
+                        Call stack
+                      </dt>
+                      <dd className="font-mono mb-2">
+                        <div className="font-mono inline-block border px-2 py-1 mb-1 rounded-sm w-full break-all text-tiny border-gray-300 dark:border-gray-700 text-gray-500">
+                          FP: 7, Return PC: 12
+                        </div>
+                        <div
+                          className="font-mono inline-block border px-2 py-1 mb-1 rounded-sm w-full break-all text-tiny border-gray-300 dark:border-gray-700 text-gray-500"
+                          style={{ minHeight: 24 }}
+                        >
+                          FP: 9, Return PC: 8
+                        </div>
+                      </dd>
                     </dl>
                   </div>
                 )}
